@@ -1,0 +1,279 @@
+<head>
+  <title>Rapid Scale Admin</title>
+</head>
+
+<body>
+    <div class="navbar navbar-static-top navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">Rapid Scale Experts</a>
+          <ul class="nav pull-right">
+            <li>
+              {{#if currentUser }}
+              	{{loginButtons}}
+              {{/if}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+            {{#if currentUser }}
+                      {{> buttonbar}}
+            {{/if}}
+            <br>
+            {{#unless currentUser}}
+                    {{> banner}}
+            {{/unless}}
+            {{#if currentUser }}
+            	{{#if addContract }}
+            		{{> insertContractForm }}
+            	{{else}}
+                    {{> contracts}}
+                {{/if}}
+            {{/if}}
+</body>
+
+<template name="buttonbar">
+  <div class="container">
+  	{{#unless addContract}}
+  		<a class="btn btn-primary add_contract {{#unless currentUser}}disabled{{/unless}}" href="#">Add Contract</a>
+  	{{/unless}}
+  </div>
+</template>
+
+<template name="banner">
+	       <div class="container">
+                <div class="row">
+                    <div class="span6">
+                              <div class="well">
+                         <h4>Sign in or create an account.</h4>
+                         {{loginButtons}}
+                              </div>
+                        </div>
+                </div>
+        </div>
+</template>
+
+<template name="contracts">
+	<div class="container">
+		<div class="span8">
+			<table class="table table-hover">
+				<tr>
+					<th></th>
+					<th>Client</th>
+					<th>Contract</th>
+					<th>Revenue</th>
+					<th>Leader</th>
+					<th>Your role</th>
+				</tr>
+
+
+				{{#each contract_items}}
+					{{> contract}}
+				{{/each}}
+			</table>
+		</div>
+	</div>
+</template>
+
+<template name="contract">
+	<tr>
+		<td><a class="btn btn-info btn-small detail {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Detail </a></td>
+		<td>{{clientCompanyName}}</td>
+		<td>{{contractName}}</td>
+		<td>${{monthlyRevenue}}</td>
+		<td>{{clientPerson.name}}</td>
+		<td>Your role here</td>	
+	</tr>
+</template>
+
+<template name="insertContractForm">
+  <div class="container">
+	{{#autoForm schema=Contracts id="insertContractForm"}}
+    <fieldset>
+        <legend>Enter a New Contract</legend>
+        	<div class="row">
+			  <div class="col-xs-3">				
+		        <div class="form-group{{#if afFieldIsInvalid 'contractName'}} has-error{{/if}}">
+		            {{afFieldLabel 'contractName'}}
+		            {{afFieldInput 'contractName' placeholder="Enter a name like 'Strategic Facilitation'"}}
+		            {{#if afFieldIsInvalid 'contractName'}}
+		            <span class="help-block">{{afFieldMessage 'contractName'}}</span>
+		            {{/if}}
+		        </div>
+		      </div>
+			  <div class="col-xs-3">				
+		        <div class="form-group{{#if afFieldIsInvalid 'clientCompanyName'}} has-error{{/if}}">
+		            {{afFieldLabel 'clientCompanyName'}}
+		            {{afFieldInput 'clientCompanyName' placeholder="Client's company name"}}
+		            {{#if afFieldIsInvalid 'clientCompanyName'}}
+		            <span class="help-block">{{afFieldMessage 'clientCompanyName'}}</span>
+		            {{/if}}
+		        </div>
+		       </div>
+		     </div>
+        	<div class="row">
+			  <div class="col-xs-3">				
+		        <div class="form-group{{#if afFieldIsInvalid 'clientPersons.0.name'}} has-error{{/if}}">
+		            {{afFieldLabel 'clientPersons.0.name'}}
+		            {{afFieldInput 'clientPersons.0.name' placeholder="Joe Client"}}
+		            {{#if afFieldIsInvalid 'clientPersons.0.name'}}
+		            <span class="help-block">{{afFieldMessage 'clientPersons.0.name'}}</span>
+		            {{/if}}
+		        </div>
+		        </div>
+			  <div class="col-xs-3">				
+		        <div class="form-group{{#if afFieldIsInvalid 'clientPersons.0.email'}} has-error{{/if}}">
+		            {{afFieldLabel 'clientPersons.0.email'}}
+		            {{afFieldInput 'clientPersons.0.email' placeholder="clientname@clientcompany.com"}}
+		            {{#if afFieldIsInvalid 'clientPersons.0.email'}}
+		            <span class="help-block">{{afFieldMessage 'clientPersons.0.email'}}</span>
+		            {{/if}}
+		        </div>
+		        </div>
+		       </div>
+		     </div>
+        	<div class="row">
+			  <div class="col-xs-3">				
+		        <div class="form-group{{#if afFieldIsInvalid 'clientPersons.0.title'}} has-error{{/if}}">
+		            {{afFieldLabel 'clientPersons.0.title'}}
+		            {{afFieldInput 'clientPersons.0.title' placeholder="e.g. CEO or CEO Assistant"}}
+		            {{#if afFieldIsInvalid 'clientPersons.0.title'}}
+		            <span class="help-block">{{afFieldMessage 'clientPersons.0.title'}}</span>
+		            {{/if}}
+		        </div>
+		       </div>
+			  <div class="col-xs-3">				
+		        <div class="form-group{{#if afFieldIsInvalid 'clientPersons.0.phone'}} has-error{{/if}}">
+		            {{afFieldLabel 'clientPersons.0.phone'}}
+		            {{afFieldInput 'clientPersons.0.phone' placeholder="212-555-3001"}}
+		            {{#if afFieldIsInvalid 'clientPersons.0.phone'}}
+		            <span class="help-block">{{afFieldMessage 'clientPersons.0.phone'}}</span>
+		            {{/if}}
+		        </div>
+		      </div>
+		     </div> 
+		    <div class="row">
+		      <div class="col-xs-3">
+		        <div class="form-group{{#if afFieldIsInvalid 'monthlyRevenue'}} has-error{{/if}}">
+		            {{afFieldLabel 'monthlyRevenue'}}
+		            {{afFieldInput 'monthlyRevenue'}}
+		            {{#if afFieldIsInvalid 'monthlyRevenue'}}
+		            <span class="help-block">{{afFieldMessage 'monthlyRevenue'}}</span>
+		            {{/if}}
+		        </div>
+		       </div>
+		     </div>
+		    <div class="row">
+		      <div class="col-xs-3">
+		        <div class="form-group{{#if afFieldIsInvalid 'startDate'}} has-error{{/if}}">
+		            {{afFieldLabel 'startDate'}}
+		            {{afFieldInput 'startDate' placeholder="YYYY-MM-DD"}}
+		            {{#if afFieldIsInvalid 'startDate'}}
+		            <span class="help-block">{{afFieldMessage 'startDate'}}</span>
+		            {{/if}}
+		        </div>
+		       </div>
+		      <div class="col-xs-3">
+		        <div class="form-group{{#if afFieldIsInvalid 'endDate'}} has-error{{/if}}">
+		            {{afFieldLabel 'endDate'}}
+		            {{afFieldInput 'endDate' placeholder="YYYY-MM-DD"}}
+		            {{#if afFieldIsInvalid 'endDate'}}
+		            <span class="help-block">{{afFieldMessage 'endDate'}}</span>
+		            {{/if}}
+		        </div>
+		       </div>		       
+		     </div>
+		    <div class="row">
+		      <div class="col-xs-3">
+		        <div class="form-group{{#if afFieldIsInvalid 'teamMember.0.name'}} has-error{{/if}}">
+		            {{afFieldLabel 'teamMember.0.name'}}
+		            {{afFieldInput 'teamMember.0.name' value=currentUserEmail}}
+		            {{#if afFieldIsInvalid 'teamMember.0.name'}}
+		            <span class="help-block">{{afFieldMessage 'teamMember.0.name'}}</span>
+		            {{/if}}
+		        </div>
+		       </div>
+		      <div class="col-xs-3">
+		        <div class="form-group{{#if afFieldIsInvalid 'teamMember.0.roleType'}} has-error{{/if}}">
+		            {{afFieldLabel 'teamMember.0.roleType'}}
+		            {{afFieldInput 'teamMember.0.roleType' options=teamRoleOptions}}
+		            {{#if afFieldIsInvalid 'teamMember.0.roleType'}}
+		            <span class="help-block">{{afFieldMessage 'teamMember.0.roleType'}}</span>
+		            {{/if}}
+		        </div>
+		       </div>
+		      </div>
+		        <div class="form-group{{#if afFieldIsInvalid 'teamMember.0.userId'}} has-error{{/if}}">
+		            {{afFieldInput 'teamMember.0.userId'  type="hidden" value=currentUser._id}}
+		            {{#if afFieldIsInvalid 'teamMember.0.userId'}}
+		            <span class="help-block">{{afFieldMessage 'teamMember.0.userId'}}</span>
+		            {{/if}}
+		        </div>
+    </fieldset>
+	<a class="btn btn-warning cancel {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Cancel </a>
+    <button type="submit" class="btn btn-primary insert">Insert</button>
+    {{/autoForm}}
+  </div>
+</template>
+
+<template name="addcontract">
+	<div class="container" >
+		<form role="form">
+				<div class="row">
+				  <div class="col-xs-3">				
+				    <label for="contractName">Name this contract</label>
+				    <input type="text" class="form-control" id="contractName" placeholder="Name for this contract">
+				  </div>
+				  <div class="col-xs-3">				
+				    <label for="clientCompanyName">Name of the client company</label>
+				    <input type="text" class="form-control" id="clientCompanyName" placeholder="Company name">
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="col-xs-3">
+				    <br>
+				    <label for="clientContactcName">Name of the main contact</label>
+				    <input type="text" class="form-control" id="clientContactName" placeholder="Main contact person">
+				  </div>
+				  <div class="col-xs-3">								  	
+				    <br><label for="clientEmail">Main contact email</label>
+				    <input type="email" class="form-control" id="clientEmail" placeholder="Client email">
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="col-xs-3">
+				    <br><label for="billingAddress">Billing address to send invoice</label>
+				    <textarea class="form-control" rows="3" id="billingAddress">
+				    </textarea>
+				  </div>
+				  <div class="col-xs-3">
+				    <br><label for="monthlyRevenue">Expected monthly revenue</label>
+				    <input type="number" class="form-control" id="monthlyRevenue" placeholder="10000">
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="col-xs-3">
+				    <br><label for="startDate">Contract starts:</label>
+				    <input type="date" class="form-control" id="startDate">
+				  </div>
+				  <div class="col-xs-3">
+				    <br><label for="endDate">Contract ends (one year if open):</label>
+				    <input type="date" class="form-control" id="endDate">				  	
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="col-xs-3">				
+				    <br><label for="contractFile">Upload signed contract</label>
+				    <input type="file" id="contractFile">
+				  </div>
+				  <div class="col-xs-3">
+				  	<br>
+				    <a class="btn btn-warning cancel {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Cancel </a>
+				    <a class="btn btn-success add-contract {{#unless currentUser}}disabled{{/unless}}" href="#">Add Contract</a>
+				  </div>
+		</form>
+	</div>
+</template>
+
+
