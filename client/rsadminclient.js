@@ -49,9 +49,13 @@ Template.contract.events({
 	'click a.detail' : function(event){
 		event.preventDefault();
 		if (Meteor.userId()){
-			var contract_get = Contracts.findOne({_id : Session.get("selected_contract")});
-			Session.set("contract_item", contract_get);
-			Session.set("contractDetail", true); //will be used to toggle between contract detail view and list view
+			var contract_item = Contracts.findOne({_id : Session.get("selected_contract")});
+			var contract_leader = "Leader Placeholder"; //search array teamMembers in contract_get to find roleType = "leader"
+			contract_item.startDate = moment.utc(contract_item.startDate).format("LL");
+			contract_item.endDate = moment.utc(contract_item.endDate).format("LL");
+			Session.set("contract_item", contract_item);
+			Session.set("contract_leader", contract_leader);
+			Session.set("contractDetail", true); //used to toggle between contract detail view and list view, has registeHelper
 		}
 	},
 
@@ -69,6 +73,10 @@ Template.insertContractForm.events({
 
 Template.contract_detail.contract_item = function() {
 	return Session.get("contract_item")
+};
+
+Template.contract_detail.contract_leader = function() {
+	return Session.get("contract_leader");
 };
 
 Template.contract_detail.events({

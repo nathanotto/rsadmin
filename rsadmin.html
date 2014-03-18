@@ -6,7 +6,7 @@
     <div class="navbar navbar-static-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="/">Rapid Scale Experts</a>
+          <a class="lead" href="/">Rapid Scale Experts</a>
           <ul class="nav pull-right">
             <li>
               {{#if currentUser }}
@@ -42,6 +42,7 @@
   <div class="container">
   	{{#unless addContract}} {{#unless contractDetail}}
   		<a class="btn btn-primary add_contract {{#unless currentUser}}disabled{{/unless}}" href="#">Add Contract</a>
+  		<a class="btn btn-primary user_view {{#unless currentUser}}disabled{{/unless}}" href="#"> See my stuff</a>
   	{{/unless}} {{/unless}}
   </div>
 </template>
@@ -101,7 +102,105 @@
 			<li> Invoices link or area: invoice history; pending expenses; add expense; generate invoice</li>
 			<li> Work log; add work entry</li>
 
-		<br>{{contract_item.contractName}}
+		<br>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-1">
+						<a class="btn btn-info btn-small edit {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Edit </a>
+					</div>
+					<div class="col-xs-5">
+						<strong>{{contract_item.clientCompanyName}}--{{contract_item.contractName}}</strong>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body"> 
+				<div class="col-xs-3">
+					<h5><font color="lightblue">Contact:</font> {{contract_item.clientPersons.0.name}}</b></h5>
+				</div>
+				<div class="col-xs-3">
+					<h5><font color="lightblue"> Leader:</font> <b>{{contract_leader}}</h5>
+				</div>
+				<div class="col-xs-2">
+					<h5><font color="lightblue">Revenue:</font> ${{contract_item.monthlyRevenue}}</h5>
+				</div>
+				<div class="col-xs-4">
+				  <h5><font color="lightblue">Start:</font> {{contract_item.startDate}} <font color="lightblue">End:</font> {{contract_item.endDate}}</h5>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-xs-2">
+								<a class="btn btn-info btn-small team {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Edit </a>
+							</div>
+							<div class="col-xs-4">
+								<strong>Team</strong>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body"> 
+						Team names and roles here.
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-xs-2">
+								<a class="btn btn-info btn-small summary {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Edit </a>
+							</div>
+							<div class="col-xs-4">
+								<strong>Summary</strong>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body"> 
+						Summary data here.
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<div class="panel panel-danger">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-xs-2">
+								<a class="btn btn-info btn-small work {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Add </a>
+							</div>
+							<div class="col-xs-4">
+								<strong>Work</strong>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body"> 
+						Work entries here.
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-xs-2">
+								<a class="btn btn-info btn-small invoice {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Create </a>
+							</div>
+							<div class="col-xs-4">
+								<strong>Invoices</strong>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body"> 
+						Invoice data here.
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<br><a class="btn btn-warning cancel {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Back </a>
 	</div>

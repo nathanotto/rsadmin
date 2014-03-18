@@ -118,13 +118,14 @@ teamMemberSchema = new SimpleSchema({
 	roleType: {
 		type: String,
 		label: "Role of Team Member",
-        allowedValues: ["leader", "sales lead", "sale", "team member", "house", "support", "other"]
+        allowedValues: ["leader", "sales lead", "sale", "team member", "support", "other"]
+        // note there can be ONLY ONE LEADER; 
 	},
 	allocation: {          //Percentage allocation for this team member. Cannot exceed 100% over all team members
 		type: Number,
-		optional: true,
+		optional: true,   //Note that allocation to house must be 20%, hence 80% max
         min: 0,
-        max: 100
+        max: 80
 	}
 });
 
