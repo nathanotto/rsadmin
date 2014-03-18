@@ -25,6 +25,10 @@ Handlebars.registerHelper("currentUserEmail", function() {
     return user.emails[0].address;
 });
 
+Handlebars.registerHelper('contractDetailTeam', function(input) {
+        return Session.get("contractDetailTeam");
+});
+
 Template.buttonbar.events({
 	'click a.add_contract' : function(event) {
 		event.preventDefault();
@@ -83,6 +87,10 @@ Template.contract_detail.events({
 	'click a.cancel' : function(event) {
 		event.preventDefault();
 		Session.set('contractDetail', false);
+	},
+	'click a.team' : function(event) {
+		event.preventDefault();
+		Session.set("contractDetailTeam", true);
 	}
 });
 

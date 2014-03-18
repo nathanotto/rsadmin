@@ -101,9 +101,10 @@
 			<li> Team area: add or remove Team members; edit allocations</li>
 			<li> Invoices link or area: invoice history; pending expenses; add expense; generate invoice</li>
 			<li> Work log; add work entry</li>
+			<li> ContractDetailTeam = {{contractDetailTeam}}</li>
 
 		<br>
-		<div class="panel panel-info">
+		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col-xs-1">
@@ -119,7 +120,7 @@
 					<h5><font color="lightblue">Contact:</font> {{contract_item.clientPersons.0.name}}</b></h5>
 				</div>
 				<div class="col-xs-3">
-					<h5><font color="lightblue"> Leader:</font> <b>{{contract_leader}}</h5>
+					<h5><font color="lightblue"> Leader:</font> {{contract_leader}}</h5>
 				</div>
 				<div class="col-xs-2">
 					<h5><font color="lightblue">Revenue:</font> ${{contract_item.monthlyRevenue}}</h5>
@@ -131,7 +132,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-6">
-				<div class="panel panel-primary">
+				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="row">
 							<div class="col-xs-2">
@@ -142,13 +143,30 @@
 							</div>
 						</div>
 					</div>
-					<div class="panel-body"> 
-						Team names and roles here.
-					</div>
+					  {{#if contract_item.teamMember.length}}
+						<table class="table">
+							<tr>
+								<th>Name</th>
+								<th>Role</th>
+								<th>Allocation</th>
+							</tr>
+							{{#each contract_item.teamMember }}	
+							  <tr>								
+								<td>{{this.name}}</td>
+								<td>{{this.roleType}}</td>
+								<td>{{this.allocation}}</td>
+							  </tr>
+							{{/each}}
+						</table>
+					  {{else}}
+							<div class="panel-body"> 
+								There are no team members yet.
+							</div>
+					  {{/if}}					
 				</div>
 			</div>
 			<div class="col-xs-6">
-				<div class="panel panel-warning">
+				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="row">
 							<div class="col-xs-2">
@@ -167,24 +185,50 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-6">
-				<div class="panel panel-danger">
+				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="row">
 							<div class="col-xs-2">
 								<a class="btn btn-info btn-small work {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Add </a>
 							</div>
 							<div class="col-xs-4">
-								<strong>Work</strong>
+								<strong>Work Log</strong>
 							</div>
 						</div>
 					</div>
-					<div class="panel-body"> 
-						Work entries here.
-					</div>
+		  			{{#if contract_item.teamMember.length}}
+					<table class="table">
+						<tr>
+							<th>Name + Type</th>
+							<th>From or on</th>
+							<th>To</th>
+						</tr>
+						{{#each contract_item.teamMember }}	
+						  <tr>								
+							<td>{{this.name}}</td>
+							{{#if this.workLog.length}}
+								{{#each this.workLog}}
+								<tr>
+									<td><indent>{{this.workType}}</indent></td>
+									<td>{{this.fromDate}}</td>
+									<td>{{this.toDate}}</td>
+								</tr>
+								{{/each}}
+							{{else}}
+								<td>No work logs active.</td>
+							{{/if}}
+						  </tr>
+						{{/each}}
+					</table>
+				  {{else}}
+						<div class="panel-body"> 
+							There are no team members yet.
+						</div>
+				 {{/if}}					
 				</div>
 			</div>
 			<div class="col-xs-6">
-				<div class="panel panel-success">
+				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="row">
 							<div class="col-xs-2">
@@ -204,8 +248,16 @@
 
 		<br><a class="btn btn-warning cancel {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Back </a>
 	</div>
+	{{#if contractDetailTeam}}
+		{{> modal_team_detail}}
+	{{/if}}
+	
 </template>	
 
+<template name="modal_team_detail">
+	Placeholder for modal_team_detail template.
+
+</template>
 
 <template name="insertContractForm">
   <div class="container">

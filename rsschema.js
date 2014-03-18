@@ -107,6 +107,35 @@ clientPersonsSchema = new SimpleSchema({
 	}
 });
 
+workLogSchema = new SimpleSchema({    //these logs will be put on invoices and used internally
+    userId: {
+        type: String
+    },
+    workType: {
+        type: String,
+        allowedValues: ["combination","coaching","meeting","facilitation","strategy","other"],
+    },
+    fromDate: {
+        type: Date,
+        label:"Word period from"
+    },
+    toDate: {
+        type: Date,
+        label: "Until"
+    },
+    description: {
+        type: String,
+        max: 300
+    },
+    invoiceNumber: {
+        type: String, //Undefined until work is put into Invoice
+        unique: true,
+        optional: true,
+        max: 15
+    }
+});
+
+
 teamMemberSchema = new SimpleSchema({
 	name: {
 		type: String,
@@ -126,7 +155,17 @@ teamMemberSchema = new SimpleSchema({
 		optional: true,   //Note that allocation to house must be 20%, hence 80% max
         min: 0,
         max: 80
-	}
+	},
+    workLog: {
+        type: [workLogSchema],
+        label: "Work Logged",
+        optional: true
+    },
+    expenses: {
+        type: [expenseSchema],
+        label: "Expenses",
+        optional: true
+        } 
 });
 
 allocationAmountSchema = new SimpleSchema({
@@ -181,27 +220,6 @@ paymentRecievedSchema = new SimpleSchema({
     }
 });
 
-workPerformedSchema = new SimpleSchema({    //these logs will be put on invoices and used internally
-    userId: {
-        type: String
-    },
-    workType: {
-        type: String,
-        allowedValues: ["combination","coaching","meeting","facilitation","strategy","other"],
-    },
-    fromDate: {
-        type: Date,
-        label:"Word period from"
-    },
-    toDate: {
-        type: Date,
-        label: "Until"
-    },
-    description: {
-        type: String,
-        max: 300
-    }
-})
 
 Contracts = new Meteor.Collection("Contracts",{
 	 schema: new SimpleSchema({
@@ -251,20 +269,10 @@ Contracts = new Meteor.Collection("Contracts",{
             label: "Invoices",
             optional: true
         },
-        expenses: {
-            type: [expenseSchema],
-            label: "Expenses",
-            optional: true
-        },
         allocations: {
             type: [allocationAmountSchema],
             label: "Allocations",
             optional: true
-        },
-        workPerformed: {
-            type: [workPerformedSchema],
-            label: "Work Logged",
-            optional: true
-        } 
+        }
    })
 });
