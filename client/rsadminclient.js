@@ -61,11 +61,11 @@ Template.contract.events({
 	}
 })
 
-Template.insertContractForm.ContractsCollection = function () {
+/* Template.insertContractForm.ContractsCollection = function () {
+	Session.set("addContract", false);
     return Contracts;
-			// Session.set("addContract", false);
 
-};
+}; */
 
 Template.insertContractForm.events({
 	'click a.cancel' : function(event){

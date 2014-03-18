@@ -4,6 +4,12 @@ AddressSchema = new SimpleSchema({
     label: "Street",
     max: 100
   },
+  suite: {
+    type: String,
+    label: "Suite",
+    optional: true,
+    max: 100
+  },
   city: {
     type: String,
     label: "City",
@@ -83,13 +89,12 @@ Contracts = new Meteor.Collection("Contracts",{
         clientPersons: {	
             type: [clientPersonsSchema],
             label: "Client Person", 
-            minCount: 1,
             maxCount: 30
         },
         billingAddress: {
             type: AddressSchema,
             label: "Billing Address"
-        },
+        }, 
         monthlyRevenue: {
             type: Number,
             decimal: true,
@@ -106,7 +111,6 @@ Contracts = new Meteor.Collection("Contracts",{
         teamMember: {
         	type: [teamMemberSchema],
         	label: "Team Member",
-        	minCount: 1
-        }
+        } 
    	})
 });
