@@ -17,6 +17,7 @@
         </div>
       </div>
     </div>
+
             {{#if currentUser }}
                       {{> buttonbar}}
             {{/if}}
@@ -28,16 +29,20 @@
             	{{#if addContract }}
             		{{> insertContractForm }}
             	{{else}}
-                    {{> contracts}}
+            		{{#if contractDetail}}
+                       {{> contract_detail}}
+                   {{else}}
+                	{{> contracts}}
+                  {{/if}}
                 {{/if}}
             {{/if}}
 </body>
 
 <template name="buttonbar">
   <div class="container">
-  	{{#unless addContract}}
+  	{{#unless addContract}} {{#unless contractDetail}}
   		<a class="btn btn-primary add_contract {{#unless currentUser}}disabled{{/unless}}" href="#">Add Contract</a>
-  	{{/unless}}
+  	{{/unless}} {{/unless}}
   </div>
 </template>
 
@@ -63,11 +68,10 @@
 					<th>Client</th>
 					<th>Contract</th>
 					<th>Revenue</th>
+					<th>Client contact</th>
 					<th>Leader</th>
 					<th>Your role</th>
 				</tr>
-
-
 				{{#each contract_items}}
 					{{> contract}}
 				{{/each}}
@@ -82,10 +86,27 @@
 		<td>{{clientCompanyName}}</td>
 		<td>{{contractName}}</td>
 		<td>${{monthlyRevenue}}</td>
-		<td>{{clientPerson.name}}</td>
+		<td>{{clientPersons.0.name}}</td>
+		<td>{{teamMember.0.name}}</td>  
 		<td>Your role here</td>	
 	</tr>
 </template>
+
+<template name="contract_detail">
+	<div class="container">
+		<ul>
+			<li> Contract top-level variables: Edit Contract</li>
+			<li> Summary of Contract: number of invoices, team members, total invoiced, progress on dates</li>
+			<li> Team area: add or remove Team members; edit allocations</li>
+			<li> Invoices link or area: invoice history; pending expenses; add expense; generate invoice</li>
+			<li> Work log; add work entry</li>
+
+		<br>{{contract_item.contractName}}
+
+		<br><a class="btn btn-warning cancel {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Back </a>
+	</div>
+</template>	
+
 
 <template name="insertContractForm">
   <div class="container">
@@ -256,69 +277,16 @@
 		            {{/if}}
 		        </div>
     </fieldset>
-	<a class="btn btn-warning cancel {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Cancel </a>
-    <button type="submit" class="btn btn-primary insert">Insert</button>
+    <div class="row">
+    	<div class="col-xs-5">
+			<a class="btn btn-warning cancel {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Cancel </a>
+		</div>
+		<div class="col-xs-2">
+	    	<button type="submit" class="btn btn-success insert">Insert New Contract</button>
+	    </div>
+	</div>
     {{/autoForm}}
   </div>
-</template>
-
-<template name="addcontract">
-	<div class="container" >
-		<form role="form">
-				<div class="row">
-				  <div class="col-xs-3">				
-				    <label for="contractName">Name this contract</label>
-				    <input type="text" class="form-control" id="contractName" placeholder="Name for this contract">
-				  </div>
-				  <div class="col-xs-3">				
-				    <label for="clientCompanyName">Name of the client company</label>
-				    <input type="text" class="form-control" id="clientCompanyName" placeholder="Company name">
-				  </div>
-				</div>
-				<div class="row">
-				  <div class="col-xs-3">
-				    <br>
-				    <label for="clientContactcName">Name of the main contact</label>
-				    <input type="text" class="form-control" id="clientContactName" placeholder="Main contact person">
-				  </div>
-				  <div class="col-xs-3">								  	
-				    <br><label for="clientEmail">Main contact email</label>
-				    <input type="email" class="form-control" id="clientEmail" placeholder="Client email">
-				  </div>
-				</div>
-				<div class="row">
-				  <div class="col-xs-3">
-				    <br><label for="billingAddress">Billing address to send invoice</label>
-				    <textarea class="form-control" rows="3" id="billingAddress">
-				    </textarea>
-				  </div>
-				  <div class="col-xs-3">
-				    <br><label for="monthlyRevenue">Expected monthly revenue</label>
-				    <input type="number" class="form-control" id="monthlyRevenue" placeholder="10000">
-				  </div>
-				</div>
-				<div class="row">
-				  <div class="col-xs-3">
-				    <br><label for="startDate">Contract starts:</label>
-				    <input type="date" class="form-control" id="startDate">
-				  </div>
-				  <div class="col-xs-3">
-				    <br><label for="endDate">Contract ends (one year if open):</label>
-				    <input type="date" class="form-control" id="endDate">				  	
-				  </div>
-				</div>
-				<div class="row">
-				  <div class="col-xs-3">				
-				    <br><label for="contractFile">Upload signed contract</label>
-				    <input type="file" id="contractFile">
-				  </div>
-				  <div class="col-xs-3">
-				  	<br>
-				    <a class="btn btn-warning cancel {{#unless currentUser}}disabled{{/unless}}" href="#"></i> Cancel </a>
-				    <a class="btn btn-success add-contract {{#unless currentUser}}disabled{{/unless}}" href="#">Add Contract</a>
-				  </div>
-		</form>
-	</div>
 </template>
 
 
